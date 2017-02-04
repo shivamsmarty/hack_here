@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %} Add Data {% endblock %}
+
+{% block content %}
+
+<form method="post" action="">
+     {% csrf_token %} 
+    <div class="form-group">
+    <label for="name">Name of Disease</label>
+    <input type="text" class="form-control" id="name"  placeholder="Disease" name="name">
+    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+  </div>
+
+  <div class="form-group">
+    <label for="affected_number">Number of Affected </label>
+    <input type="text" class="form-control" id="affected_number"  placeholder="0" name="affected_number">
+    <small id="emailHelp" class="form-text text-muted">The number of people affected</small>
+  </div>
+
+  <div class="form-group">
+    <label for="casuality_number">Number of Casuality </label>
+    <input type="text" class="form-control" id="casuality_number"  placeholder="0" name="casuality_number">
+    <small id="emailHelp" class="form-text text-muted">The number of people died due to disease.</small>
+  </div>
+
+  <div class="form-group">
+  <label for="sel1">Affected Area</label>
+  <select class="form-control" id="sel1" name="affected_area_select">
+      {% for c in city %}
+    <option>{{c}}</option>
+    {% endfor %}
+    <option>Other</option>
+  </select>
+  </div>
+
+  <div class="form-group">
+    <label for="affected_area">Other( if not in list ) </label>
+    <input type="text" class="form-control" id="affected_area"  placeholder="Area" name="affected_area">
+    <small id="emailHelp" class="form-text text-muted">The area affected </small>
+  </div>
+
+<div class="form-group">
+  <label for="sel11">Affected Age group</label>
+  <select class="form-control" id="sel11" name="affected_age_group">
+      
+    <option>Child</option>
+    <option>Teen</option>
+    <option>Adult</option>
+    <option>Old</option>
+  </select>
+  </div>
+
+  <input class="btn btn-primary" type="submit"  />
+</form>
+
+{% endblock %}

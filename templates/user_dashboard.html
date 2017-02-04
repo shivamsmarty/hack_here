@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %} Dashboard {% endblock %}
+
+{% block content %}
+    <div class="container">
+        {% if query %}
+            <table class = "table table-hover">
+   <caption>Roumers Disease</caption>
+   
+   <thead>
+      <tr>
+         <th>Name</th>
+         <th>City</th>
+         <th>Status</th>
+      </tr>
+   </thead>
+   
+   <tbody>
+      {% for q in query %}
+      
+      <tr>
+         <td>{{q.name}}</td>
+         <td>{{q.city}}</td>
+         <td>{{q.status}}</td>
+      </tr>
+
+      {% endfor %}
+   </tbody>
+   
+</table>
+ {% else %}
+  You don't have any submitted rumour.
+  <a class="btn btn-primary" href="/addQuery" > Add a Query </a>
+ {% endif %}
+        </div>
+
+{% endblock %}
