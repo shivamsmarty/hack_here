@@ -21,8 +21,10 @@ from django.conf.urls.static import static
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^accounts/', include('registration.backends.simple.urls')),
-    url(r'^add$',addQuery),
-    url(r'^profileComplete$',profileComplete),
+    url(r'^add/$',addQuery),
+    url(r'^profileComplete/$',profileComplete),
+    url(r'^dashboard/$',dashboard),
+    url(r'^rumour/(?P<id>[\w.@+-]+)/',rumour),
     url(r'^$',home),
 
 ]+static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

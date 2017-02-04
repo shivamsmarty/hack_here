@@ -5,15 +5,15 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 state = (
-    ('v','verified'),
-    ('p','pending'),
-    ('f','falseAlarm')
+    ('Confirmed','Confirmed'),
+    ('Pending','Pending'),
+    ('FalseAlarm','FalseAlarm')
 )
 AGE_GROUP = (
-    ('ch','Child'),
-    ('teen','Teenagers'),
-    ('adult','Adult'),
-    ('old','Old'),
+    ('Child','Child'),
+    ('Teen','Teenagers'),
+    ('Adult','Adult'),
+    ('Old','Old'),
 )
 class UserProfile(models.Model):
     user = models.ForeignKey(
@@ -56,11 +56,12 @@ class Query(models.Model):
     name = models.CharField(max_length=50)
     number_of_affected = models.IntegerField()
     # affected_area = models.CharField(max_length=50)
-    affected_city = models.ForeignKey(City,blank=True, null=True)   # can be others
+    affected_city = models.CharField(max_length=20)   # can be others
     number_of_casualties = models.IntegerField()
     status = models.CharField(max_length=20, choices=state)
     affected_age_group = models.CharField(max_length=20, choices=AGE_GROUP)
-
+    posted_date = models.DateTimeField(auto_now_add=True)
+    verified_date = models.DateTimeField(blank=True, null=True)
     def __str__(self):
         return self.name
 

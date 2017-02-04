@@ -1,8 +1,12 @@
 from django.shortcuts import render, redirect
 from .models import *
+from django.utils import timezone
 # Create your views here.
-
 def home(request):
+
+    return render(request,"base.html",{})
+
+def dashboard(request):
     if request.user.is_authenticated():
         print ("hello")
         # if request.user.userProfile.exists():
@@ -11,6 +15,10 @@ def home(request):
         #     print ("profile doesn't exits")
         if request.user.healthOfficer.exists():
             print ('officer')
+            query = Query.objects.all()
+            return render(request,"officer_dashboard.html",{
+                'query':query
+            })
         elif request.user.userProfile.exists():
             print ("user")
             query = Query.objects.filter(posted_by= request.user.userProfile.get())
@@ -75,21 +83,42 @@ def addQuery(request):
         area = request.POST.get("affected_area")
         affected_age_group = request.POST.get("affected_age_group")
         number_of_casuality = request.POST.get("casuality_number")
-        
+        if area == "":
+            area = area_selected
+        else:
+            a = City(name=area)
+            a.save()
         q = Query(
             posted_by= posted_by,
             name = name,
             number_of_affected = number_of_affected,
             number_of_casualties = number_of_casuality,
-            status = 'p',
-            affected_age_group = affected_age_group
+            status = 'Pending',
+            affected_city = area,
+            affected_age_group = affected_age_group,
         )
         print (q)
         q.save()
+        return redirect('/dashboard')
     
     city = City.objects.all()
     print (city[0])
     return render(request,"addQuery.html",{
         'city':city
     })
+
+def rumour(request,id):
+        print (id)
+        rum = Query.objects.get(id=id)
+        if request.method == 'POST':
+            print ( request.POST)
+            if request.POST.get("verify"):
+                rum.status = 'Confirmed'
+            else:
+                rum.status = 'FalseAlarm'
+            rum.verified_by = HealthOfficer.objects.get(user = request.user)
+            rum.save()
+        return render(request,"rumour.html",{
+            'rumour':rum
+        })
         

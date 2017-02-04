@@ -13,8 +13,9 @@
     <div class="collapse navbar-collapse" id="not-google-plus-nav">
       <ul class="nav navbar-nav pull-right">
         {% if user.is_authenticated %}
-          <li><a href="">Welcome {{ user.username }}</a></li>
-          <li><a href="">Settings</a></li>
+        <li><a href="/dashboard">Welcome {{ user.username }}</a></li>
+          <li><a href="/dashboard">Dashboard</a></li>
+          
         <li><a href="{% url 'auth_logout' %}">Logout</a></li>
         {% else %}
           <li><a href="/accounts/login">Login</a></li>

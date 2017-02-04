@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block title %} {{rumour.name}} {% endblock %}
+
+
+{% block content %}
+
+    <div class="container">
+            <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Name of Disease</h3>
+            </div>
+            <div class="panel-body">
+                {{ rumour }}
+            </div>
+
+            </div>
+            <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Number of Affected</h3>
+            </div>
+            <div class="panel-body">
+                {{ rumour.number_of_affected }}
+            </div>
+            </div>
+
+            <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Name of Casualities</h3>
+            </div>
+            <div class="panel-body">
+                {{ rumour.number_of_casualties }}
+            </div>
+            </div>
+
+            <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Affected Area</h3>
+            </div>
+            <div class="panel-body">
+                {{ rumour.affected_city }}
+            </div>
+            </div>
+
+            <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Affected Age Group</h3>
+            </div>
+            <div class="panel-body">
+                {{ rumour.affected_age_group }}
+            </div>
+            </div>
+
+            <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Reported Date</h3>
+            </div>
+            <div class="panel-body">
+                {{ rumour.posted_date}}
+            </div>
+            </div>
+
+            {% if rumour.status == 'Confirmed' %}
+                <span class="green"> Confirmed </span>
+                {% elif rumour.status == 'Pending' %}
+                <span>
+                    <form method="post" action="">
+                            {% csrf_token %}
+                    <input class="btn btn-primary" type="submit" value="Confirm" name="verify">
+                    <input class="btn btn-primary" type="submit" value="Disapprove" name="disapprove">
+                        </form>
+                    </span>
+                {% else %}
+                <span class="red"> False Alarm </span>
+                {% endif %}
+ 
+
+
+
+        </div>
+
+{% endblock %}
