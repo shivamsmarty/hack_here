@@ -162,14 +162,22 @@ def addPrecaution(request,id):
     token = "e46a5589b3d69190ec34926022c4676495ab3bea"
 
     sms_from = "08039510254"
-    sms_to = "08507118002"
-    sms_body = "hi"
-    r = send_message(sid,token,sms_from,sms_to,sms_body)
-    print (r.status_code)
+   
+    
+    
 
     if request.method == "POST":
         prec = request.POST.get("addPrecaution")
         q.precaution = prec
+        sms_body = q.precaution
+        
+        # users = UserProfile.objects.all()
+        # for user in users:
+        #     r = send_message(sid,token,sms_from,user.phone_number,sms_body)
+        #     print (r.status_code)
+        # r = send_message(sid,token,sms_from,q.posted_by.phone_number,sms_body)
+        # print (r.status_code)
+
         q.save()
 
         return redirect('/dashboard')
