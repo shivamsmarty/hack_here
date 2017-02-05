@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %} My Profile {% endblock %}
+
+{% block content %}
+
+<form method="post" action="">
+     {% csrf_token %} 
+    <div class="form-group">
+    <label for="first_name">First Name</label>
+    <input type="text" class="form-control" id="first_name"  placeholder="First Name" name="first_name" value="{{userp.first_name}}">
+    <!--<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
+  </div>
+  <div class="form-group">
+    <label for="last_name">Last Name</label>
+    <input type="text" class="form-control" id="last_name"  placeholder="Last Name" name="last_name" value="{{userp.last_name}}">
+    <!--<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
+  </div>
+
+  <div class="form-group">
+    <label for="phone_number">Phone number </label>
+    <input type="number" class="form-control" id="phone_number"  placeholder="0" name="phone_number" value="{{userp.phone_number}}">
+    <!--<small id="emailHelp" class="form-text text-muted">The number of people affected</small>-->
+  </div>
+
+
+  <div class="form-group">
+  <label for="sel1">City</label>
+  <select class="form-control" id="sel1" name="city_selected">
+      {% for c in city %}
+        {% if c == userp.city %}
+         <option selected >{{c}}</option>
+         {% else %}
+        <option>{{c}}</option>
+       {% endif %}
+    {% endfor %}
+    <option>Other</option>
+  </select>
+  </div>
+
+  
+
+
+
+  <input class="btn btn-primary" type="submit"   value="Update"/>
+</form>
+{% endblock %}

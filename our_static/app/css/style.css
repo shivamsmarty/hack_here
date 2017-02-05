@@ -1,0 +1,44 @@
+body {
+  /* Location of the image */
+
+
+  
+  /* Set a background color that will be displayed
+     while the background image is loading */
+  background-color: lightcyan;
+}
+
+@keyframes redblink{
+    0% {  color: white;}
+    50% { color: red;}
+}
+.highAlert
+{
+   
+    color: white;
+    animation-name: redblink;
+    animation-duration: 0.4s;
+    animation-iteration-count: infinite;
+}
+
+@keyframes greenblink{
+    0% {  color: white;}
+    50% { color: green;}
+}
+.greenAlert
+{
+    color: white;
+    animation-name: greenblink;
+    animation-duration: 0.4s;
+    animation-iteration-count: infinite;
+}
+
+footer{
+     position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 1rem;
+  background-color: #efefef;
+  text-align: center;
+}

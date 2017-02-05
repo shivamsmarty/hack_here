@@ -22,7 +22,19 @@
       <tr>
          <td>{{q.name}}</td>
          <td>{{q.affected_city}}</td>
-         <td><a href="/rumour/{{q.id}}"> {{q.status}}</a>
+         <td>
+             {% if q.status == 'Confirmed' %}
+               <a style="color: red;" href="/rumour/{{q.id}}"> {{q.status}}</a>
+                    {% if q.precaution %}
+                    <span class="pull-right"style="color:blue;"> Notified!</span>
+                    {% endif %}
+                {% elif q.status == 'Pending' %}
+               <a style="color: blue;" href="/rumour/{{q.id}}"> {{q.status}}</a>
+                {% else %}
+               <a style="color: green;" href="/rumour/{{q.id}}"> {{q.status}}</a>
+                {% endif %}
+
+        
          </td>
       </tr>
 

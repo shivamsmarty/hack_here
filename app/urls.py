@@ -25,6 +25,9 @@ urlpatterns = [
     url(r'^profileComplete/$',profileComplete),
     url(r'^dashboard/$',dashboard),
     url(r'^rumour/(?P<id>[\w.@+-]+)/',rumour),
+    url(r'^view/rumour/(?P<id>[\w.@+-]+)/',viewRumour),
+    url(r'^notify/precaution/(?P<id>[\w.@+-]+)/',addPrecaution),
+    url(r'^profile/$',profile),
     url(r'^$',home),
 
 ]+static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -1,10 +1,25 @@
 from django.shortcuts import render, redirect
 from .models import *
 from django.utils import timezone
+
+import unirest,requests
 # Create your views here.
 def home(request):
 
     return render(request,"base.html",{})
+
+def profile(request):
+    if request.user.is_authenticated() and request.user.userProfile.exists():
+        userp = UserProfile.objects.get(user=request.user)
+        c = City.objects.all()
+        print (request.user)
+        return render(request,"user_profile.html",{
+        'userp':userp,
+        'city':c
+    })
+    else:
+        return redirect('/dashboard')
+
 
 def dashboard(request):
     if request.user.is_authenticated():
@@ -21,9 +36,11 @@ def dashboard(request):
             })
         elif request.user.userProfile.exists():
             print ("user")
-            query = Query.objects.filter(posted_by= request.user.userProfile.get())
+            query = Query.objects.filter(posted_by= request.user.userProfile.get()).order_by('-posted_date', 'id')
+            otherq = Query.objects.exclude(posted_by= request.user.userProfile.get()).filter(status="Confirmed").order_by('-posted_date', 'id')
             return render(request,"user_dashboard.html",{
-                'query':query
+                'query':query,
+                'otherq':otherq
             })
         else:
             # redirect to complete profile 
@@ -113,12 +130,53 @@ def rumour(request,id):
         if request.method == 'POST':
             print ( request.POST)
             if request.POST.get("verify"):
-                rum.status = 'Confirmed'
+                rum.status = 'Confirmed'      
             else:
                 rum.status = 'FalseAlarm'
             rum.verified_by = HealthOfficer.objects.get(user = request.user)
+            rum.verified_date = timezone.now()
             rum.save()
         return render(request,"rumour.html",{
             'rumour':rum
         })
-        
+def send_message(sid, token, sms_from, sms_to, sms_body):
+    return requests.post('https://twilix.exotel.in/v1/Accounts/{sid}/Sms/send.json'.format(sid=sid),
+        auth=(sid, token),
+        data={
+            'From': sms_from,
+            'To': sms_to,
+            'Body': sms_body
+        })
+
+def addPrecaution(request,id):
+    q = Query.objects.get(id = id)
+
+    sid = "hackhere"
+    token = "e46a5589b3d69190ec34926022c4676495ab3bea"
+
+    sms_from = "08507118002"
+    sms_to = "08507118002"
+    sms_body = "hi"
+    # r = send_message(sid,token,sms_from,sms_to,sms_body)
+    print (r.status_code)
+
+    if request.method == "POST":
+        prec = request.POST.get("addPrecaution")
+        q.precaution = prec
+        q.save()
+
+        return redirect('/dashboard')
+
+
+    
+    return render(request,"addPrecaution.html",{
+        'q':q
+    })
+
+def viewRumour(requests,id):
+    q = Query.objects.get(id=id)
+    if not q.status == "Confirmed":
+        return redirect("/")
+    return render(requests,"viewRumour.html",{
+        'q':q
+    })

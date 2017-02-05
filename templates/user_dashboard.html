@@ -9,7 +9,7 @@
         <h3> Tracks </h3>
         {% if query %}
             <table class = "table table-hover">
-   <caption>Roumers Disease</caption>
+   <caption>Your submitted rumours </caption>
    
    <thead>
       <tr>
@@ -23,18 +23,30 @@
    </thead>
    
    <tbody>
-      {% for q in query %}
       
+       {% for q in query %}
       <tr>
          <td>{{q.name}}</td>
          <td>{{q.affected_city}}</td>
          <td>{{q.number_of_affected}}</td>
          <td>{{q.number_of_casualties}}</td>
-         <td>{{q.affected_age_group}}</td>
-         <td>{{q.status}}</td>
+         <td>{{q.affected_age_group}}</td>         
+         <td>
+             {% if q.status == 'Confirmed' %}
+               <span style="color: red;" > {{q.status}}</span>
+                    {% if q.precaution %}
+                    <a class="pull-right"style="color:blue;" href="/view/rumour/{{q.id}}"> Precautions!</a>
+                    {% endif %}
+                {% elif q.status == 'Pending' %}
+               <span style="color: blue;"> {{q.status}}</span>
+                {% else %}
+               <span style="color: green;"> {{q.status}}</span>
+                {% endif %}
+         </td>
       </tr>
-
       {% endfor %}
+      
+      
    </tbody>
    
 </table>
@@ -42,6 +54,44 @@
   You don't have any submitted rumour.
   <!--<a class="btn btn-primary" href="/add" > Add a Query </a>-->
  {% endif %}
+
+<h3> Other Spread Disease </h3>
+        {% if otherq %}
+            <table class = "table table-hover">
+   <caption>Disease</caption>
+   
+   <thead>
+      <tr>
+         <th>Name</th>
+         <th>Affected Area</th>
+         
+         <th> Affected Age Group</th>
+         <th>Status</th>
+      </tr>
+   </thead>
+   
+   <tbody>
+      {% for q in otherq %}
+      
+      <tr>
+         <td>{{q.name}}</td>
+         <td>{{q.affected_city}}</td>        
+         <td>{{q.affected_age_group}}</td>
+         <td style="color:red;">{{q.status}}
+             <a class="pull-right" href="/view/rumour/{{q.id}}">Precautions</a>
+         </td>
+      </tr>
+
+      {% endfor %}
+   </tbody>
+   
+</table>
+ {% else %}
+  There is currently no other disease.
+  <!--<a class="btn btn-primary" href="/add" > Add a Query </a>-->
+ {% endif %}
+
+
         </div>
 
 {% endblock %}
