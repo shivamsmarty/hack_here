@@ -6,12 +6,14 @@
     <div class="container">
         {% if query %}
             <table class = "table table-hover">
-   <caption>Roumers Disease</caption>
+   <caption class="lead">Rumoured Disease</caption>
    
    <thead>
       <tr>
          <th>Name</th>
          <th>City</th>
+         <th> Reported on</th>
+         <th> Verified on</th>
          <th>Status</th>
       </tr>
    </thead>
@@ -22,6 +24,8 @@
       <tr>
          <td>{{q.name}}</td>
          <td>{{q.affected_city}}</td>
+         <td> {{q.posted_date}}</td>
+         <td> {% if q.verified_date %} {{q.verified_date}} {% endif %}
          <td>
              {% if q.status == 'Confirmed' %}
                <a style="color: red;" href="/rumour/{{q.id}}"> {{q.status}}</a>

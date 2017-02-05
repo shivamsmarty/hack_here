@@ -6,7 +6,7 @@ import unirest,requests
 # Create your views here.
 def home(request):
 
-    return render(request,"base.html",{})
+    return render(request,"index.html",{})
 
 def profile(request):
     if request.user.is_authenticated() and request.user.userProfile.exists():
@@ -30,7 +30,7 @@ def dashboard(request):
         #     print ("profile doesn't exits")
         if request.user.healthOfficer.exists():
             print ('officer')
-            query = Query.objects.all()
+            query = Query.objects.all().order_by('-posted_date', 'id')
             return render(request,"officer_dashboard.html",{
                 'query':query
             })
@@ -69,6 +69,9 @@ def profileComplete(request):
         city = request.POST.get("city")
         if city == "":
             city = city_selected
+        else:
+            a = City(name=city)
+            a.save()
         profile = UserProfile(
             user = request.user,
             first_name = first_name,
@@ -77,6 +80,8 @@ def profileComplete(request):
             city=city
         )
         profile.save()
+
+        return redirect('/dashboard')
 
 
 
@@ -154,10 +159,10 @@ def addPrecaution(request,id):
     sid = "hackhere"
     token = "e46a5589b3d69190ec34926022c4676495ab3bea"
 
-    sms_from = "08507118002"
+    sms_from = "08039510254"
     sms_to = "08507118002"
     sms_body = "hi"
-    # r = send_message(sid,token,sms_from,sms_to,sms_body)
+    r = send_message(sid,token,sms_from,sms_to,sms_body)
     print (r.status_code)
 
     if request.method == "POST":

@@ -2,5 +2,14 @@
 {% load i18n %}
 
 {% block content %}
-<p>{% trans "You are now registered. Activation email sent." %}</p>
+<p class="col-md-6 col-md-offset-4">
+    {% trans "You are now registered. Activation email sent." %}
+    <br><br>
+    If you are a User
+    <br><br>
+    <a class="btn btn-primary" href="/dashboard"> Complete Your Profile </a>
+    <br><br>
+    If you are a Health officer please ask your Administrator to assign you the role of HO.
+    </p>
+
 {% endblock %}
