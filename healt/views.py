@@ -4,6 +4,8 @@ from django.utils import timezone
 
 import unirest,requests
 
+# graphs library
+from chartit import DataPool, Chart
 
 # Create your views here.
 def home(request):
@@ -31,10 +33,21 @@ def dashboard(request):
         # else:
         #     print ("profile doesn't exits")
         if request.user.healthOfficer.exists():
-            print ('officer')
-            query = Query.objects.all().order_by('-posted_date', 'id')
+            if request.GET.get("sort_by"):
+                param = request.GET.get("sort_by")
+                p = '-'+param
+                print (p)
+                query = Query.objects.all().order_by(p, 'id')
+            else:
+                query = Query.objects.all().order_by('-posted_date', 'id')
+            # weatherdata = DataPool(series=[{'options':{'source':Query.objects.all()},'terms':['name','number_of_affected','number_of_casualties']}])
+            # cht = Chart( datasource = weatherdata, series_options=[{'options':{'type':'line','stacking':False},'terms':{'name':['number_of_affected','number_of_casualties']}}],chart_options={'title':{'text': 'Weather Data of Boston and Houston'},'xAxis':{'title':{'text': 'Month number'}}})
+   
+            # graph api
+
             return render(request,"officer_dashboard.html",{
-                'query':query
+                'query':query,
+                # 'weatherchart': cht
             })
         elif request.user.userProfile.exists():
             print ("user")
